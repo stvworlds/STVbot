@@ -4,9 +4,9 @@ module.exports = {
     event: "messageCreate",
     once: false,
     async execute(interaction, client) {
-        if (interaction.author.bot) { return; };
+        if (interaction.author.bot) return;
 
-        if (interaction.guild === null) { return; };
+        if (interaction.guild === null) return;
 
         if (interaction.member.permissions.has(PermissionsBitField.Flags.MentionEveryone) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) { return; };
         if (!(interaction.content.includes("@everyone") || interaction.content.includes("@here"))) { return; };

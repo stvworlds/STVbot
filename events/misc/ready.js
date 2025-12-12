@@ -13,7 +13,7 @@ module.exports = {
         );
 
 
-        const channel = client.channels.cache.get('1218904396465836093');
+        const channel = client.channels.cache.get('1395397413195223144');
         if (channel) {
             const embed = new EmbedBuilder()
                 .setTitle('Бот запустився 🔫')
