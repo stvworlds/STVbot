@@ -1,1 +1,1 @@
-# -STVdsbot.js
+# STVdsbot.js
