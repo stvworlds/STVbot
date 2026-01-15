@@ -6,8 +6,6 @@ cd ~/STVdsbot.js || exit 1
 git pull
 
 # Встановлюємо залежності та білд
-bun install
-bun run build
-
-# Запускаємо додаток
-bun run start
+npm install
+# Запускаємо додатокp
+node run ./index.js
