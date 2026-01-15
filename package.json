@@ -1,0 +1,29 @@
+{
+  "name": "stvdsbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STEVIOUS-XYZ/STVdsbot.js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STEVIOUS-XYZ/STVdsbot.js/issues"
+  },
+  "homepage": "https://github.com/STEVIOUS-XYZ/STVdsbot.js#readme",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "axios": "^1.13.2",
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3",
+    "fluent-ffmpeg": "^2.1.3",
+    "node-fetch": "^3.3.2",
+    "openai": "^6.10.0"
+  }
+}
