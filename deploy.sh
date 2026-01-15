@@ -7,4 +7,4 @@ git pull
 
 npm install
 
-node run index.js
+node index.js
