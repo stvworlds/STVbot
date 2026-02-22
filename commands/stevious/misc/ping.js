@@ -7,9 +7,6 @@ module.exports = {
         .setDescription('Ping pong.')
         .setContexts([InteractionContextType.PrivateChannel, InteractionContextType.Guild, InteractionContextType.BotDM]),
 
-    async autocomplete(interaction) {
-        return;
-    },
 
     async execute(interaction) {
         await interaction.reply({ embeds: [pingEmbed.getEmbed(interaction)]})

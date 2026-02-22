@@ -6,7 +6,7 @@ const openai = new OpenAI({
 module.exports = {
     event: 'messageCreate',
     once: false,
-    async execute(message, client) {
+    async execute(message) {
 
         const q_channel = ["1440916339895042058"];
         const channel = message.channel;
