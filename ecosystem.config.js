@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: "stvdsbot",
+            name: "stvbot",
             script: "deploy.sh",
             watch: false,
             exec_mode: "fork",

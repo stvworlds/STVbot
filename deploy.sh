@@ -1,6 +1,6 @@
 #!/bin/bash
 # deploy.sh
-cd ~/STVdsbot.js || exit 1
+cd ~/STVbot || exit 1
 
 git pull
 
