@@ -1,37 +1,84 @@
-const { ChannelType, PermissionsBitField } = require('discord.js');
 
-async function deleteUserMessages(guild, userId) {
-    const oneHourAgo = Date.now() - (60 * 60 * 1000);
 
-    for (const channel of guild.channels.cache.values()) {
-        if (channel.type !== ChannelType.GuildText) continue;
+const DISCORD_API = "https://discord.com/api/v10";
 
-        if (!channel.permissionsFor(guild.members.me).has(PermissionsBitField.Flags.ManageMessages)) continue;
+async function deleteUserMessages(guildId, userId, botToken) {
+    console.log("=== DELETE USER MESSAGES START ===");
+    console.log("Guild:", guildId);
+    console.log("User:", userId);
 
-        try {
-            let fetched;
-            let lastId;
+    const oneHourAgoDate = new Date(Date.now() - 60 * 60 * 1000);
+    console.log("Time threshold:", oneHourAgoDate.toISOString());
 
-            do {
-                fetched = await channel.messages.fetch({
-                    limit: 100,
-                    before: lastId
-                });
+    const searchUrl = new URL(`${DISCORD_API}/guilds/${guildId}/messages/search`);
+    searchUrl.searchParams.append("author_id[]", userId);
+        searchUrl.searchParams.append("limit", "15");
 
-                const filtered = fetched.filter(msg =>
-                    msg.author.id === userId &&
-                    msg.createdTimestamp > oneHourAgo
-                );
+    console.log("Search URL:", searchUrl.toString());
 
-                await Promise.all(filtered.map(msg => msg.delete().catch(() => {})));
+    let deletedCount = 0;
 
-                lastId = fetched.last()?.id;
-            } while (fetched.size === 100);
+    try {
+        const searchResponse = await fetch(searchUrl, {
+            headers: {
+                "Authorization": `Bot ${botToken}`
+            }
+        });
 
-        } catch (err) {
-            console.log(`No access to ${channel.name}`);
+        console.log("Search status:", searchResponse.status);
+
+        if (!searchResponse.ok) {
+            const errorText = await searchResponse.text();
+            console.error("Search failed:", errorText);
+            return;
         }
+
+        const searchData = await searchResponse.json();
+
+        if (!searchData.messages || searchData.messages.length === 0) {
+            console.log("No messages found.");
+            return;
+        }
+
+        console.log("Raw message groups:", searchData.messages.length);
+
+        for (const messageGroup of searchData.messages) {
+            for (const message of messageGroup) {
+
+                const messageDate = new Date(message.timestamp);
+                console.log(`Checking message ${message.id} | ${messageDate.toISOString()}`);
+
+                if (messageDate >= oneHourAgoDate) {
+                    console.log(`Deleting message ${message.id} in channel ${message.channel_id}`);
+
+                    const deleteResponse = await fetch(
+                        `${DISCORD_API}/channels/${message.channel_id}/messages/${message.id}`,
+                        {
+                            method: "DELETE",
+                            headers: {
+                                "Authorization": `Bot ${botToken}`
+                            }
+                        }
+                    );
+
+                    if (deleteResponse.ok) {
+                        console.log(`Deleted message ${message.id}`);
+                        deletedCount++;
+                    } else {
+                        const deleteError = await deleteResponse.text();
+                        console.error(`Failed to delete ${message.id}:`, deleteError);
+                    }
+                } else {
+                    console.log(`Skipped (older than 1 hour): ${message.id}`);
+                }
+            }
+        }
+
+        console.log("Total deleted:", deletedCount);
+        console.log("=== DELETE USER MESSAGES END ===");
+
+    } catch (error) {
+        console.error("Unexpected error:", error);
     }
 }
-
 module.exports = { deleteUserMessages };

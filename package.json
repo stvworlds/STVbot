@@ -19,7 +19,7 @@
   "homepage": "https://github.com/STEVIOUS-XYZ/STVdsbot.js#readme",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
-    "axios": "^1.13.2",
+    "axios": "1.13.5",
     "discord.js": "^14.25.1",
     "dotenv": "^17.2.3",
     "fluent-ffmpeg": "^2.1.3",

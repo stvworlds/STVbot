@@ -1,4 +1,5 @@
 const {deleteUserMessages} = require("../../utils/misc/deleteUserMessages.js");
+const {PermissionsBitField} = require("discord.js");
 
 
 module.exports = {
@@ -15,13 +16,17 @@ module.exports = {
 
         if (!deadChannel.includes(message.channel.id)) return;
 
-        try {
-            message.author.timeout(60 * 60 * 1000, "Spam detected")
-            status = "Було видано мут на годину";
-
-        } catch (error) {
+        if (message.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
             status = "Не вдалося видати мут";
+        } else {
+            try {
+                message.member.timeout(60 * 60 * 1000, "Spam detected")
+                    .then(status = "Було видано мут на годину")
+            } catch(err) {
+                status = "Не вдалося видати мут"
+            }
         }
+
 
         const messageData = {
             "components": [
@@ -38,13 +43,13 @@ module.exports = {
                             "components": [
                                 {
                                     "type": 10,
-                                    "content": "<@" + message.author + ">" + " був відмічений як спамер." + status,
+                                    "content": "<@" + message.member + ">" + " був відмічений як спамер. " + status,
                                 }
                             ],
                             "accessory": {
                                 "type": 11,
                                 "media": {
-                                    "url": message.author.displayAvatarURL({ dynamic: true, size: 1024 })
+                                    "url": message.member.displayAvatarURL({ dynamic: true, size: 1024 })
                                 }
                             }
                         }
@@ -57,7 +62,7 @@ module.exports = {
                     "components": [
                         {
                             "type": 10,
-                            "content": "Айді користувача\n```\n" + message.author + "\n```"
+                            "content": "Айді користувача\n```\n" + message.member + "\n```"
                         }
                     ]
                 },
@@ -68,14 +73,14 @@ module.exports = {
                     "components": [
                         {
                             "type": 10,
-                            "content": "Час приєднання до серверу\n" + "123"
+                            "content": "Час приєднання до серверу\n" + "<t:" + Math.floor(message.member.joinedTimestamp / 1000) + ":R>"
                         }
                     ]
                 },
                 {
                     "type": 17,
                     "accent_color": null,
-                    "spoiler": false,
+                    "spoiler": true,
                     "components": [
                         {
                             "type": 10,
@@ -101,7 +106,12 @@ module.exports = {
             "flags": 32768
         };
 
-        await deleteUserMessages(message.guild, message.author.id);
+        await deleteUserMessages(
+            message.guildId,
+            message.member.id,
+            process.env.BOT_TOKEN
+        );
+
         logChannel.send(messageData);
     }
 }

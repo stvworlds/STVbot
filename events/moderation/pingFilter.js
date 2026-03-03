@@ -8,8 +8,8 @@ module.exports = {
 
         if (interaction.guild === null) return;
 
-        if (interaction.member.permissions.has(PermissionsBitField.Flags.MentionEveryone) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) { return; };
-        if (!(interaction.content.includes("@everyone") || interaction.content.includes("@here"))) { return; };
+        if (interaction.member.permissions.has(PermissionsBitField.Flags.MentionEveryone) || interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) { return; }
+        if (!(interaction.content.includes("@everyone") || interaction.content.includes("@here"))) { return; }
         
         const logChannel = interaction.guild.channels.cache.get('1443851838565646407');
 
