@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const DISCORD_API = "https://discord.com/api/v10";
 
 async function deleteUserMessages(guildId, userId, token) {
@@ -21,7 +19,7 @@ async function deleteUserMessages(guildId, userId, token) {
     try {
         const searchResponse = await fetch(searchUrl, {
             headers: {
-                "Authorization": `Bot` + token
+                "Authorization": `Bot ` + token
             }
         });
 

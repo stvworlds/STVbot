@@ -7,7 +7,7 @@ const {adminLog} = require("../../components/antispam/adminlog");
 module.exports = {
     event: "messageCreate",
     once: false,
-    async execute(message, client, token) {
+    async execute(message, client) {
 
         const logChannel = client.channels.cache.get('1443851838565646407');
         const deadChannel = ["1475173067679465832"];
