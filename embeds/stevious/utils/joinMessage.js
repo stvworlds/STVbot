@@ -28,7 +28,7 @@ const messageData = (interaction) => {
                         {
                             "type": 2,
                             "style": 5,
-                            "url": "https://discord.com/channels/1335083670364618772/1395397413195223141",
+                            "url": "https://stvworlds.win/docs/rules",
                             "label": "Правила",
                             "emoji": {
                                 "name": "📌"
@@ -37,7 +37,7 @@ const messageData = (interaction) => {
                         {
                             "type": 2,
                             "style": 5,
-                            "url": "https://discord.com/channels/1335083670364618772/1395397266747166771",
+                            "url": "https://stvworlds.win/blog",
                             "label": "Новини",
                             "emoji": {
                                 "name": "🔔"

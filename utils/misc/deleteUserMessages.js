@@ -1,8 +1,8 @@
-
+require('dotenv').config();
 
 const DISCORD_API = "https://discord.com/api/v10";
 
-async function deleteUserMessages(guildId, userId, botToken) {
+async function deleteUserMessages(guildId, userId, token) {
     console.log("=== DELETE USER MESSAGES START ===");
     console.log("Guild:", guildId);
     console.log("User:", userId);
@@ -11,7 +11,7 @@ async function deleteUserMessages(guildId, userId, botToken) {
     console.log("Time threshold:", oneHourAgoDate.toISOString());
 
     const searchUrl = new URL(`${DISCORD_API}/guilds/${guildId}/messages/search`);
-    searchUrl.searchParams.append("author_id[]", userId);
+    searchUrl.searchParams.append("author_id", userId);
         searchUrl.searchParams.append("limit", "15");
 
     console.log("Search URL:", searchUrl.toString());
@@ -21,10 +21,11 @@ async function deleteUserMessages(guildId, userId, botToken) {
     try {
         const searchResponse = await fetch(searchUrl, {
             headers: {
-                "Authorization": `Bot ${botToken}`
+                "Authorization": `Bot` + token
             }
         });
 
+        console.log(searchResponse);
         console.log("Search status:", searchResponse.status);
 
         if (!searchResponse.ok) {
@@ -56,7 +57,7 @@ async function deleteUserMessages(guildId, userId, botToken) {
                         {
                             method: "DELETE",
                             headers: {
-                                "Authorization": `Bot ${botToken}`
+                                "Authorization": `Bot ` + token
                             }
                         }
                     );

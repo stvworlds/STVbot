@@ -1,6 +1,6 @@
 const {time, EmbedBuilder} = require("discord.js");
 module.exports = {
-    event: 'ready',
+    event: 'clientReady',
     once: true,
     async execute(client) {
 
