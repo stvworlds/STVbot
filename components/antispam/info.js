@@ -1,6 +1,6 @@
 module.exports = {
     info(message, status) {
-        const time = "<t:" + Math.floor(Date.now() / 1000000) + 120 + ":R>";
+        const time = "<t:" + Math.floor((Date.now() + 2 * 60 * 1000) / 1000) + ":R>";
         const memberId = "<@" + message.member + ">";
         return {
             "components": [
